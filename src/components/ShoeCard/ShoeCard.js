@@ -30,17 +30,26 @@ const ShoeCard = ({
     : isNewShoe(releaseDate)
       ? 'new-release'
       : 'default'
+  let flag = null;
+  if (variant === "on-sale") {
+    flag = <SecondaryFlag>Sale</SecondaryFlag>;
+  } else if (variant === "new-release") {
+    flag = <PrimaryFlag>Just Released!</PrimaryFlag>
+  }
+  const PriceTag = variant === "on-sale" ? OldPrice : Price;
 
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+          {flag}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <PriceTag>{formatPrice(price)}</PriceTag>
+          {variant === "on-sale" && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
@@ -66,11 +75,15 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
+  border-radius: 16px 16px 4px 4px;
   width: 100%;
 `;
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 `;
 
 const Name = styled.h3`
@@ -80,6 +93,11 @@ const Name = styled.h3`
 
 const Price = styled.span``;
 
+const OldPrice = styled.span`
+  color: ${COLORS.gray[700]};
+  text-decoration-line: line-through;
+`;
+
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
 `;
@@ -87,6 +105,27 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+  position: absolute;
+  right: 0;
+  top: 19px;
+`;
+
+const BaseFlag = styled.div`
+  font-weight: ${WEIGHTS.bold};
+  color: ${COLORS.white};
+  position: absolute;
+  padding: 4px;
+  border-radius: 2px;
+  top: 12px;
+  right: -4px;
+`;
+
+const PrimaryFlag = styled(BaseFlag)`
+  background-color: ${COLORS.secondary};
+`;
+
+const SecondaryFlag = styled(BaseFlag)`
+  background-color: ${COLORS.primary};
 `;
 
 export default ShoeCard;
