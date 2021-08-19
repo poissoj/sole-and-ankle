@@ -114,7 +114,10 @@ const BaseFlag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: ${COLORS.white};
   position: absolute;
-  padding: 4px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 18} rem;
   border-radius: 2px;
   top: 12px;
   right: -4px;
